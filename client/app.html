@@ -1,0 +1,124 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.5,minimum-scale=1.0,user-scalable=0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <title>Api-request</title>
+</head>
+
+<body>
+    <div class="cont">
+        <h2>api-request</h2>
+        <p>begin: <span class='begin'></span></p>
+        <p>end: <span class="end"></span></p>
+        <p>duration: <span class="last"></span>ms</p>
+        <p class="data"></p>
+        <button class="button" id='start'>
+            Send
+        </button>
+    </div>
+    <script type="text/javascript" src="./zepto.js"></script>
+    <script type="text/javascript">
+    var data = {
+		requestInfo : [
+				{
+		            url:'http://localhost:30102',
+		            method: 'get',
+		            name: 'product_list_error',
+		            data: {}
+				},
+				{
+		            url:'http://localhost:3010',
+		            method: 'get',
+		            name: 'product_list_ok',
+		            data: {}
+				}
+			]
+    };
+    var data2 = {
+    	requestInfo : [
+    		{
+    			url:'http://dev.xiaoniuapp.com/webapi/ad/home/banners?r='+(new Date()).getTime(),
+    			method: 'post',
+    			name: 'banners',
+	            data: {
+	            	source:'web',
+					clientSide:'web',
+					appVersion:'3.0.4',
+					partner:'QGZ'
+	            }
+    		},
+    		{
+    			url:'http://dev.xiaoniuapp.com/webapi/product/latestInvests?r='+(new Date()).getTime(),
+    			method: 'post',
+    			name: 'latestInvests',
+	            data: {
+	            	source:'web',
+					clientSide:'web',
+					appVersion:'3.0.4',
+					partner:'QGZ'
+	            }
+    		},
+    		{
+    			url:'http://dev.xiaoniuapp.com/webapi/data/platformUserInvest?r='+(new Date()).getTime(),
+    			method: 'post',
+    			name: 'platformUserInvest',
+	            data: {
+	            	source:'web',
+					clientSide:'web',
+					appVersion:'3.0.4',
+					partner:'QGZ'
+	            }
+    		},  
+    		{
+    			url:'http://dev.xiaoniuapp.com/webapi/product/list?r='+(new Date()).getTime(),
+    			method: 'post',
+    			name: 'list',
+	            data: {
+					'source':'web',
+					'clientSide':'web',
+					'appVersion':'3.0.4',
+					'partner':'QGZ',
+					'showPosition':'1',
+					'pageIndex':'1',
+					'pageSize':'10'
+	            }
+    		}, 	
+    		{
+    			url:'http://dev.xiaoniuapp.com/webapi/news/pageList?r='+(new Date()).getTime(),
+    			method: 'post',
+    			name: 'pageList',
+	            data: {
+	            	source:'web',
+					clientSide:'web',
+					appVersion:'3.0.4',
+					partner:'QGZ'
+	            }
+    		}
+    	]
+    }
+    $('#start').bind('click', function() {
+        var beginDate = new Date();
+        $('.cont .begin').html(beginDate);
+        $.post('/api/_proxy', data2, function(data) {
+            var endDate = new Date();
+            $('.cont .end').html(endDate);
+            $('.cont .last').html(endDate.getTime() - beginDate.getTime());
+            $('.cont .data').html(data);
+        });
+    });
+// 	var xhr=new XMLHttpRequest();  
+//    	xhr.open("post",'/api/_proxy',true);   
+//    	xhr.send(data2);  
+//    	xhr.onreadystatechange=function(){  
+//           if(xhr.readyState==4&&xhr.status==200){  
+//                 var ret=xhr.responseText;  
+//                 alert(ret);  
+//           }  
+//     }  
+
+    </script>
+</body>
+
+</html>
