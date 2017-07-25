@@ -39,7 +39,7 @@
     var data2 = {
     	requestInfo : [
     		{
-    			url:'http://dev.xiaoniuapp.com/webapi/ad/home/banners?r='+(new Date()).getTime(),
+    			url:'http://dev.qguanzi.com/webapi/ad/home/banners?r='+(new Date()).getTime(),
     			method: 'post',
     			name: 'banners',
 	            data: {
@@ -50,7 +50,7 @@
 	            }
     		},
     		{
-    			url:'http://dev.xiaoniuapp.com/webapi/product/latestInvests?r='+(new Date()).getTime(),
+    			url:'http://dev.qguanzi.com/webapi/product/latestInvests?r='+(new Date()).getTime(),
     			method: 'post',
     			name: 'latestInvests',
 	            data: {
@@ -61,7 +61,7 @@
 	            }
     		},
     		{
-    			url:'http://dev.xiaoniuapp.com/webapi/data/platformUserInvest?r='+(new Date()).getTime(),
+    			url:'http://dev.qguanzi.com/webapi/data/platformUserInvest?r='+(new Date()).getTime(),
     			method: 'post',
     			name: 'platformUserInvest',
 	            data: {
@@ -72,7 +72,7 @@
 	            }
     		},  
     		{
-    			url:'http://dev.xiaoniuapp.com/webapi/product/list?r='+(new Date()).getTime(),
+    			url:'http://dev.qguanzi.com/webapi/product/list?r='+(new Date()).getTime(),
     			method: 'post',
     			name: 'list',
 	            data: {
@@ -86,7 +86,7 @@
 	            }
     		}, 	
     		{
-    			url:'http://dev.xiaoniuapp.com/webapi/news/pageList?r='+(new Date()).getTime(),
+    			url:'http://dev.qguanzi.com/webapi/news/pageList?r='+(new Date()).getTime(),
     			method: 'post',
     			name: 'pageList',
 	            data: {
@@ -101,22 +101,64 @@
     $('#start').bind('click', function() {
         var beginDate = new Date();
         $('.cont .begin').html(beginDate);
-        $.post('/api/_proxy', data2, function(data) {
-            var endDate = new Date();
-            $('.cont .end').html(endDate);
-            $('.cont .last').html(endDate.getTime() - beginDate.getTime());
-            $('.cont .data').html(data);
-        });
+        xhr(beginDate)
+        // $.post('/api/_proxy', data2, function(data) {
+        //     var endDate = new Date();
+        //     $('.cont .end').html(endDate);
+        //     $('.cont .last').html(endDate.getTime() - beginDate.getTime());
+        //     $('.cont .data').html(data);
+        // });
     });
-// 	var xhr=new XMLHttpRequest();  
-//    	xhr.open("post",'/api/_proxy',true);   
-//    	xhr.send(data2);  
-//    	xhr.onreadystatechange=function(){  
-//           if(xhr.readyState==4&&xhr.status==200){  
-//                 var ret=xhr.responseText;  
-//                 alert(ret);  
-//           }  
-//     }  
+    function xhr(beginDate){
+        console.log('begin')
+        var xhrdata = [];
+        var res;
+        for (var p in data2) {
+            xhrdata.push(p + "=" + encodeURIComponent(data2[p]));
+        }
+        xhrdata = xhrdata.join("&");
+        var xhr=new XMLHttpRequest();  
+        //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.open("post",'/api/_proxy?t=' + ('sizcache'+Math.random()).replace( ".", "" ) , true);
+        xhr.setRequestHeader("Content-Type", "application/json");          
+        xhr.send(JSON.stringify(data2));  
+        xhr.onreadystatechange=function(){  
+                if(xhr.readyState==2){  
+                    var data=xhr.responseText;  
+                    console.log(2) 
+                    //console.log(data) 
+                }   
+                if(xhr.readyState==3){  
+                    var data=xhr.responseText;  
+                    console.log(3) 
+                    // console.log("'{"+data.replace(/(,?)$/,'')+"}'")
+                    var endDate = new Date();
+                    $('.cont .end').html(endDate);
+                    $('.cont .last').html(endDate.getTime() - beginDate.getTime());
+                    //res = eval('['+data+']');
+                    try{
+                        res = JSON.parse("{"+data.replace(/(,?)$/,'')+"}")
+                    }catch(e){console.log(e);}
+                    console.log(res)
+                    //$('.cont .data').html(data);                    
+                }             
+                if(xhr.readyState==4&&xhr.status==200){  
+                    var data=xhr.responseText;  
+                    console.log(4)
+                    //console.log(data)
+                    var endDate = new Date();
+                    console.log(typeof data)
+                    //res = eval('['+data+']');
+                    res = JSON.parse("{"+data.replace(/(,?)$/,'')+"}")
+                    console.log(res)
+
+                    //$('.cont .end').html(endDate);
+                    //$('.cont .last').html(endDate.getTime() - beginDate.getTime());
+                    //$('.cont .data').html(data);
+
+                }  
+        }  
+    }
 
     </script>
 </body>

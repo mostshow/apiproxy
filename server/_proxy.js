@@ -2,13 +2,12 @@
 import axios from 'axios'
 
 
-function _proxy (opt) {
+function _proxy (opt ,response) {
+
 
     return new Promise(function (resolve) {
-
 			let l = opt.requestInfo.length;
-			let result = {}, cookie, startTime = new Date().getTime();
-
+			let cookie, startTime = new Date().getTime();
 			opt.requestInfo.map( x => {
 				axios(x).then(function(res){
 					handle(x,res)
@@ -21,7 +20,7 @@ function _proxy (opt) {
 
 				l--;
 				let name = x.name;
-
+				let result = {};
 				if(res.errno){
 
 					result[name] ={
@@ -32,11 +31,15 @@ function _proxy (opt) {
 				}else{
 
 					result[name] = res.data;
-					if(res.headers['set-cookie']) cookie = res.headers['set-cookie'];
+					// if(res.data.code == 90001){
+     //    				response.write(JSON.stringify(result) + ',');    
+					// }
+					//if(res.headers['set-cookie']) cookie = res.headers['set-cookie'];
+    				response.write( '"' + name + '"' + ':' + JSON.stringify(result[name]) +',');    
 					console.log(name + ':'+ (new Date().getTime() - startTime ) + 'ms');
 				}
-
 			    !l&&resolve(result,cookie);
+
 			}
 
     });

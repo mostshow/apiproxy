@@ -8,22 +8,34 @@ const router = express.Router();
 router.post('/api/_proxy', (req, res, next) => {
 
     let cookie = req.get('Cookie');
+    res.writeHead(200, {
+        //'Content-Type': 'text/html; charset=utf-8',
+        'Content-Type': 'application/json ; charset=utf-8',
+        //'Content-Type': 'application/x-www-form-urlencoded',
+        //'Transfer-Encoding': 'chunked',
+        //'Vary': 'Accept-Encoding',
+        //'Set-Cookie': 'test=1;',
+        //'Connection': 'keep-alive'
+    })      
     _proxy({
 
         requestInfo: req.body.requestInfo,
         cookie: cookie
 
-    }).then(function(result, cookie){
+    }, res).then(function(result, cookie){
+        console.log(result)
 
-        cookie&&res.append('Set-Cookie', cookie);
-        res.send(JSON.stringify(result));    
+        //cookie&&res.append('Set-Cookie', cookie);
+
+        res.end();    
 
     }).catch(function(){
 
-        res.send(JSON.stringify({
-        	error:0
+        res.send( JSON.stringify({
+            code:-99,
+            msg:'error!'
         }));    
-
+     
     })
 });
 
