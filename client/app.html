@@ -119,47 +119,41 @@
         xhrdata = xhrdata.join("&");
         var xhr=new XMLHttpRequest();  
         //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.open("post",'/api/_proxy?t=' + ('sizcache'+Math.random()).replace( ".", "" ) , true);
+        xhr.offset = 0;
+        xhr.open("post",'/api/proxy?t=' + ('sizcache'+Math.random()).replace( ".", "" ) , true);
         xhr.setRequestHeader("Content-Type", "application/json");          
         xhr.send(JSON.stringify(data2));  
         xhr.onreadystatechange=function(){  
-                if(xhr.readyState==2){  
-                    var data=xhr.responseText;  
-                    console.log(2) 
-                    //console.log(data) 
-                }   
                 if(xhr.readyState==3){  
-                    var data=xhr.responseText;  
-                    console.log(3) 
-                    // console.log("'{"+data.replace(/(,?)$/,'')+"}'")
                     var endDate = new Date();
                     $('.cont .end').html(endDate);
                     $('.cont .last').html(endDate.getTime() - beginDate.getTime());
-                    //res = eval('['+data+']');
-                    try{
-                        res = JSON.parse("{"+data.replace(/(,?)$/,'')+"}")
-                    }catch(e){console.log(e);}
-                    console.log(res)
-                    //$('.cont .data').html(data);                    
+                    proxyHandel(xhr)
                 }             
                 if(xhr.readyState==4&&xhr.status==200){  
-                    var data=xhr.responseText;  
-                    console.log(4)
-                    //console.log(data)
-                    var endDate = new Date();
-                    console.log(typeof data)
-                    //res = eval('['+data+']');
-                    res = JSON.parse("{"+data.replace(/(,?)$/,'')+"}")
-                    console.log(res)
-
-                    //$('.cont .end').html(endDate);
-                    //$('.cont .last').html(endDate.getTime() - beginDate.getTime());
-                    //$('.cont .data').html(data);
+                    proxyHandel(xhr)
 
                 }  
         }  
     }
 
+    function proxyHandel(e){
+        var ctx = e, separator = '|qgz|';
+        var responseText = e.responseText.slice(ctx.offset);
+
+        var arrRes = responseText.split(separator);
+        $.each(arrRes, function(index, proxyRes){
+            try{
+                var response = $.parseJSON(proxyRes);
+                response.status = e.status;
+                ctx.offset += arrRes[index].length + separator.length;
+                $('.cont .data').append(JSON.stringify(response));
+            }catch(e){
+                console.log(e)
+            }
+
+        })
+    }
     </script>
 </body>
 
