@@ -22,7 +22,6 @@ function _proxy (opt ,response) {
 				let name = x.name;
 				let result = {};
 				let separator = '|qgz|';
-				console.log(res)
 				let statusText = res.statusText || res.response.statusText;
 				let status = res.status || res.response.status;
 				if(res.errno || !res.status || status !== 200){
