@@ -15,8 +15,8 @@ router.use('/api/proxy', (req, res, next) => {
     //     //'Vary': 'Accept-Encoding',
     //     //'Set-Cookie': 'test=1;',
     //     //'Connection': 'keep-alive'
-    // }) 
-       
+    // })
+
     _proxy({
 
         requestInfo: req.body.requestInfo,
@@ -25,15 +25,13 @@ router.use('/api/proxy', (req, res, next) => {
     }, res).then(function(result, cookie){
         //cookie&&res.append('Set-Cookie', cookie);
 
-        res.end();    
+        res.end();
 
     }).catch(function(){
-        console.log(123)
         res.send( JSON.stringify({
             code:-99,
             msg:'error!'
-        }));    
-     
+        }));
     })
 });
 

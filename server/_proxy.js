@@ -30,8 +30,8 @@ function _proxy (opt ,response) {
 						"code" : status,
 						"status" : status,
 						"name" : name
-					} 
-    				console.log('error') 
+					}
+    				console.log('error')
 					console.log(name + ':'+ (new Date().getTime() - startTime ) + 'ms');
 				}else{
 
@@ -39,7 +39,7 @@ function _proxy (opt ,response) {
 					result.name = name;
 					console.log(name + ':'+ (new Date().getTime() - startTime ) + 'ms');
 				}
-    			response.write( JSON.stringify(result) + separator);   
+    			response.write( JSON.stringify(result) + separator);
 			    !l&&resolve(result,cookie);
 
 			}
