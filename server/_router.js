@@ -35,4 +35,23 @@ router.use('/api/proxy', (req, res, next) => {
     })
 });
 
+// router.use('/api/next', (req, res, next) => {
+//     let cookie = req.get('Cookie');
+//     _next({
+
+//         requestInfo: req.body.requestInfo,
+//         cookie: cookie
+
+//     }, res).then(function(result, cookie){
+//         //cookie&&res.append('Set-Cookie', cookie);
+
+//         res.end();
+
+//     }).catch(function(){
+//         res.send( JSON.stringify({
+//             code:-99,
+//             msg:'error!'
+//         }));
+//     })
+// });
 export default router;
