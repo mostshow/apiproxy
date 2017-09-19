@@ -128,16 +128,16 @@
                     var endDate = new Date();
                     $('.cont .end').html(endDate);
                     $('.cont .last').html(endDate.getTime() - beginDate.getTime());
-                    proxyHandel(xhr)
+                    proxyHandle(xhr)
                 }             
                 if(xhr.readyState==4&&xhr.status==200){  
-                    proxyHandel(xhr)
+                    proxyHandle(xhr)
 
                 }  
         }  
     }
 
-    function proxyHandel(e){
+    function proxyHandle(e){
         var ctx = e, separator = '|qgz|';
         var responseText = e.responseText.slice(ctx.offset);
 

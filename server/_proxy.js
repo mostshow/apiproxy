@@ -21,7 +21,8 @@ function _proxy (opt ,response) {
 				l--;
 				let name = x.name;
 				let result = {};
-				let separator = '|qgz|';
+				let separator_start = '|qgz-s|';
+				let separator_end = '|qgz-e|';
 				let statusText = res.statusText || res.response.statusText;
 				let status = res.status || res.response.status;
 				if(res.errno || !res.status || status !== 200){
@@ -39,7 +40,7 @@ function _proxy (opt ,response) {
 					result.name = name;
 					console.log(name + ':'+ (new Date().getTime() - startTime ) + 'ms');
 				}
-    			response.write( JSON.stringify(result) + separator);
+    			response.write( separator_start + JSON.stringify(result) + separator_end);
 			    !l&&resolve(result,cookie);
 
 			}
