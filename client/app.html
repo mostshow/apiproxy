@@ -138,15 +138,18 @@
     }
 
     function proxyHandle(e){
-        var ctx = e, separator = '|qgz|';
+        var ctx = e, separator = '|qgz|', reg = /\|qgz-s\|(.*?)\|qgz-e\|/;
         var responseText = e.responseText.slice(ctx.offset);
 
-        var arrRes = responseText.split(separator);
+        var arrRes = [], res;
+        while(res = reg.exec(responseText)){
+            arrRes.push(res);
+        }
         $.each(arrRes, function(index, proxyRes){
             try{
-                var response = $.parseJSON(proxyRes);
+                var response = $.parseJSON(proxyRes[1]);
                 response.status = e.status;
-                ctx.offset += arrRes[index].length + separator.length;
+                ctx.offset += proxyRes[0].length;
                 $('.cont .data').append(JSON.stringify(response));
             }catch(e){
                 console.log(e)
