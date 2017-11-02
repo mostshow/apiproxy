@@ -25,7 +25,7 @@ router.use('/api/proxy', (req, res, next) => {
     }, res).then(function(result, cookie){
         //cookie&&res.append('Set-Cookie', cookie);
 
-        res.end();
+        res.send(result);
 
     }).catch(function(){
         res.send( JSON.stringify({
